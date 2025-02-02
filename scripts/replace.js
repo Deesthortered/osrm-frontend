@@ -21,6 +21,7 @@ for (const filepath of [leafletOptions, debug]) {
   const LANGUAGE = process.env.OSRM_LANGUAGE || 'en'
   const DEFAULT_LAYER = process.env.OSRM_DEFAULT_LAYER || 'streets'
   const MAPBOX_TOKEN = process.env.OSRM_MAPBOX_TOKEN || 'pk.eyJ1IjoibXNsZWUiLCJhIjoiclpiTWV5SSJ9.P_h8r37vD8jpIH1A6i1VRg'
+  const NOMINATIM = process.env.NOMINATIM_URL || 'https://nominatim.openstreetmap.org'
 
   // Edit Leaflet Options
   if (BACKEND) options = options.replace(/http[s]?:\/\/router\.project-osrm\.org/, BACKEND)
@@ -41,6 +42,7 @@ for (const filepath of [leafletOptions, debug]) {
     // Leaflet uses LatLng
     else options = options.replace('38.8995,-77.0269', latlng)
   }
+  if (NOMINATIM) options = options.replace(/\/\/nominatim\.openstreetmap\.org/, NOMINATIM)
 
   // Save Leaflet Options
   fs.writeFileSync(filepath, options)
