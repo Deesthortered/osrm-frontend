@@ -1,4 +1,4 @@
-FROM alpine:3.5
+FROM alpine:3.21.2
 
 # Enables customized options using environment variables
 ENV OSRM_BACKEND='http://localhost:5000'
@@ -11,17 +11,18 @@ ENV NOMINATIM_URL='https://nominatim.openstreetmap.org'
 
 # Copy package.json
 RUN mkdir -p /src
+WORKDIR /src
 COPY package.json /src
 
 # Install app dependencies
-RUN apk add --no-cache sed nodejs && \
-    cd /src && \
+RUN apk add --no-cache sed nodejs npm && \
     npm install
 
 # Create app directory
 COPY . /src
-WORKDIR /src
+
+# Expose the application port
+EXPOSE 9966
 
 # Run App
-EXPOSE 9966
 CMD ["npm", "start"]
